@@ -8,15 +8,19 @@ Future<Response> postPersonHandler(Request request) async {
     final data = await request.readAsString();
     final json = jsonDecode(data);
     Person parsedPerson = PersonSerializer().fromJson(json);
-    Person? newPerson = await PersonRepository.instance.create(parsedPerson);
+    if (parsedPerson.isValid()) {
+      Person? newPerson = await PersonRepository.instance.create(parsedPerson);
 
-    if (newPerson != null) {
-      return Response.ok(
-        jsonEncode(PersonSerializer().toJson(newPerson)),
-        headers: {'Content-Type': 'application/json'},
-      );
+      if (newPerson != null) {
+        return Response.ok(
+          jsonEncode(PersonSerializer().toJson(newPerson)),
+          headers: {'Content-Type': 'application/json'},
+        );
+      } else {
+        return Response.badRequest(body: objectNotCreated);
+      }
     } else {
-      return Response.badRequest(body: objectNotCreated);
+      return Response.badRequest(body: invalidInputData);
     }
   } catch (e) {
     return Response.badRequest();
@@ -62,16 +66,20 @@ Future<Response> updatePersonHandler(Request request) async {
     final data = await request.readAsString();
     final json = jsonDecode(data);
     Person parsedPerson = PersonSerializer().fromJson(json);
-    Person? updatedPerson =
-        await PersonRepository.instance.update(parsedPerson);
+    if (parsedPerson.isValid()) {
+      Person? updatedPerson =
+          await PersonRepository.instance.update(parsedPerson);
 
-    if (updatedPerson != null) {
-      return Response.ok(
-        jsonEncode(PersonSerializer().toJson(updatedPerson)),
-        headers: {'Content-Type': 'application/json'},
-      );
+      if (updatedPerson != null) {
+        return Response.ok(
+          jsonEncode(PersonSerializer().toJson(updatedPerson)),
+          headers: {'Content-Type': 'application/json'},
+        );
+      } else {
+        return Response.badRequest(body: objectNotFound);
+      }
     } else {
-      return Response.badRequest(body: objectNotFound);
+      return Response.badRequest(body: invalidInputData);
     }
   } catch (e) {
     return Response.badRequest();

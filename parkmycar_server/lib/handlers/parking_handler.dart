@@ -8,16 +8,20 @@ Future<Response> postParkingHandler(Request request) async {
     final data = await request.readAsString();
     final json = jsonDecode(data);
     Parking parsedParking = ParkingSerializer().fromJson(json);
-    Parking? newParking =
-        await ParkingRepository.instance.create(parsedParking);
+    if (parsedParking.isValid()) {
+      Parking? newParking =
+          await ParkingRepository.instance.create(parsedParking);
 
-    if (newParking != null) {
-      return Response.ok(
-        jsonEncode(ParkingSerializer().toJson(newParking)),
-        headers: {'Content-Type': 'application/json'},
-      );
+      if (newParking != null) {
+        return Response.ok(
+          jsonEncode(ParkingSerializer().toJson(newParking)),
+          headers: {'Content-Type': 'application/json'},
+        );
+      } else {
+        return Response.badRequest(body: objectNotCreated);
+      }
     } else {
-      return Response.badRequest(body: objectNotCreated);
+      return Response.badRequest(body: invalidInputData);
     }
   } catch (e) {
     return Response.badRequest();
@@ -63,16 +67,20 @@ Future<Response> updateParkingHandler(Request request) async {
     final data = await request.readAsString();
     final json = jsonDecode(data);
     Parking parsedParking = ParkingSerializer().fromJson(json);
-    Parking? updatedParking =
-        await ParkingRepository.instance.update(parsedParking);
+    if (parsedParking.isValid()) {
+      Parking? updatedParking =
+          await ParkingRepository.instance.update(parsedParking);
 
-    if (updatedParking != null) {
-      return Response.ok(
-        jsonEncode(ParkingSerializer().toJson(updatedParking)),
-        headers: {'Content-Type': 'application/json'},
-      );
+      if (updatedParking != null) {
+        return Response.ok(
+          jsonEncode(ParkingSerializer().toJson(updatedParking)),
+          headers: {'Content-Type': 'application/json'},
+        );
+      } else {
+        return Response.badRequest(body: objectNotFound);
+      }
     } else {
-      return Response.badRequest(body: objectNotFound);
+      return Response.badRequest(body: invalidInputData);
     }
   } catch (e) {
     return Response.badRequest();

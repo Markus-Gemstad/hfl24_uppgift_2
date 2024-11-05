@@ -8,16 +8,20 @@ Future<Response> postParkingSpaceHandler(Request request) async {
     final data = await request.readAsString();
     final json = jsonDecode(data);
     ParkingSpace parsedParkingSpace = ParkingSpaceSerializer().fromJson(json);
-    ParkingSpace? newParkingSpace =
-        await ParkingSpaceRepository.instance.create(parsedParkingSpace);
+    if (parsedParkingSpace.isValid()) {
+      ParkingSpace? newParkingSpace =
+          await ParkingSpaceRepository.instance.create(parsedParkingSpace);
 
-    if (newParkingSpace != null) {
-      return Response.ok(
-        jsonEncode(ParkingSpaceSerializer().toJson(newParkingSpace)),
-        headers: {'Content-Type': 'application/json'},
-      );
+      if (newParkingSpace != null) {
+        return Response.ok(
+          jsonEncode(ParkingSpaceSerializer().toJson(newParkingSpace)),
+          headers: {'Content-Type': 'application/json'},
+        );
+      } else {
+        return Response.badRequest(body: objectNotCreated);
+      }
     } else {
-      return Response.badRequest(body: objectNotCreated);
+      return Response.badRequest(body: invalidInputData);
     }
   } catch (e) {
     return Response.badRequest();
@@ -64,16 +68,20 @@ Future<Response> updateParkingSpaceHandler(Request request) async {
     final data = await request.readAsString();
     final json = jsonDecode(data);
     ParkingSpace parsedParkingSpace = ParkingSpaceSerializer().fromJson(json);
-    ParkingSpace? updatedParkingSpace =
-        await ParkingSpaceRepository.instance.update(parsedParkingSpace);
+    if (parsedParkingSpace.isValid()) {
+      ParkingSpace? updatedParkingSpace =
+          await ParkingSpaceRepository.instance.update(parsedParkingSpace);
 
-    if (updatedParkingSpace != null) {
-      return Response.ok(
-        jsonEncode(ParkingSpaceSerializer().toJson(updatedParkingSpace)),
-        headers: {'Content-Type': 'application/json'},
-      );
+      if (updatedParkingSpace != null) {
+        return Response.ok(
+          jsonEncode(ParkingSpaceSerializer().toJson(updatedParkingSpace)),
+          headers: {'Content-Type': 'application/json'},
+        );
+      } else {
+        return Response.badRequest(body: objectNotFound);
+      }
     } else {
-      return Response.badRequest(body: objectNotFound);
+      return Response.badRequest(body: invalidInputData);
     }
   } catch (e) {
     return Response.badRequest();

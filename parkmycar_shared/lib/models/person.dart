@@ -1,4 +1,5 @@
 import 'package:objectbox/objectbox.dart';
+import 'package:parkmycar_shared/util/validators.dart';
 import 'identifiable.dart';
 import 'serializer.dart';
 
@@ -7,13 +8,17 @@ class Person extends Identifiable {
   @override
   @Id()
   // ignore: overridden_fields
-  int id;
+  int id; // Gör en override för att det ska funka med ObjectBox
 
   String name;
   String personnr;
 
   /// Default constructor. Exclude id if this is a new object
   Person(this.name, this.personnr, [this.id = -1]);
+
+  bool isValid() {
+    return Validators.isValidName(name) && Validators.isValidPersonNr(personnr);
+  }
 
   @override
   String toString() {

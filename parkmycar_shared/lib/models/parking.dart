@@ -1,5 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:objectbox/objectbox.dart';
+import 'package:parkmycar_shared/parkmycar_shared.dart';
 import 'identifiable.dart';
 import 'serializer.dart';
 
@@ -8,7 +9,7 @@ class Parking extends Identifiable {
   @override
   @Id()
   // ignore: overridden_fields
-  int id;
+  int id; // Gör en override för att det ska funka med ObjectBox
 
   int vehicleId;
   int parkingSpaceId;
@@ -19,19 +20,16 @@ class Parking extends Identifiable {
   @Property(type: PropertyType.date)
   DateTime endTime;
 
-  // Vehicle get vehicle => VehicleRepository.instance.getById(vehicleId);
-
-  // ParkingSpace get parkingSpace =>
-  //     ParkingSpaceRepository.instance.getById(parkingSpaceId);
-
   Parking(this.vehicleId, this.parkingSpaceId, this.startTime, this.endTime,
       [this.id = -1]);
 
-  // double calculateParkingCost() {
-  //   Duration parkingTime = startTime.difference(endTime);
-  //   ParkingSpace parkingSpace = this.parkingSpace;
-  //   return parkingSpace.pricePerMinute * parkingTime.inMinutes;
-  // }
+  bool isValid() {
+    DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm');
+    return Validators.isValidId(vehicleId.toString()) &&
+        Validators.isValidId(parkingSpaceId.toString()) &&
+        Validators.isValidDateTime(formatter.format(startTime)) &&
+        Validators.isValidDateTime(formatter.format(endTime));
+  }
 
   @override
   String toString() {

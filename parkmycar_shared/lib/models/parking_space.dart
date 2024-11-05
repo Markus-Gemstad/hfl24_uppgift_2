@@ -8,7 +8,7 @@ class ParkingSpace extends Identifiable {
   @override
   @Id()
   // ignore: overridden_fields
-  int id;
+  int id; // Gör en override för att det ska funka med ObjectBox
 
   String address;
   int pricePerHour;
@@ -19,9 +19,7 @@ class ParkingSpace extends Identifiable {
   ParkingSpace(this.address, this.pricePerHour, [this.id = -1]);
 
   bool isValid() {
-    return (Validators.isValidId(id.toString()) &&
-        Validators.isValidAddress(address) &&
-        Validators.isValidPricePerHour(pricePerHour.toString()));
+    return (Validators.isValidAddress(address));
   }
 
   @override

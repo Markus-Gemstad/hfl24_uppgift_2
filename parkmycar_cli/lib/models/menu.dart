@@ -33,8 +33,7 @@ List<MenuItem> menu = [
   ]),
   MenuItem('Parkeringar', subMenu: [
     MenuItem('Skapa ny parkering', screenFunction: screenAddParking),
-    MenuItem('Visa alla parkeringar (och se pris)',
-        screenFunction: screenShowAllParkings),
+    MenuItem('Visa alla parkeringar', screenFunction: screenShowAllParkings),
     MenuItem('Uppdatera parkering', screenFunction: screenUpdateParking),
     MenuItem('Ta bort parkering', screenFunction: screenDeleteParking),
     MenuItem('Gå tillbaka till huvudmenyn', doBack: true),

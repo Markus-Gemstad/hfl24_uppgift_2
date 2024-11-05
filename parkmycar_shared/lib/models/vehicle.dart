@@ -1,4 +1,5 @@
 import 'package:objectbox/objectbox.dart';
+import 'package:parkmycar_shared/parkmycar_shared.dart';
 import 'identifiable.dart';
 import 'serializer.dart';
 
@@ -9,16 +10,14 @@ class Vehicle extends Identifiable {
   @override
   @Id()
   // ignore: overridden_fields
-  int id;
+  int id; // Gör en override för att det ska funka med ObjectBox
 
   String regNr;
-  //int type;
   int personId;
 
+  // Lite magi för att enum ska funka med ObjecktBox
   @Transient()
   VehicleType type;
-
-  // Person get owner => PersonRepository.instance.getById(personId);
 
   int? get dbType {
     _ensureStableEnumValues();
@@ -53,6 +52,11 @@ class Vehicle extends Identifiable {
     assert(VehicleType.car.index == 0);
     assert(VehicleType.motorcycle.index == 1);
     assert(VehicleType.truck.index == 2);
+  }
+
+  bool isValid() {
+    return Validators.isValidRegNr(regNr) &&
+        Validators.isValidId(personId.toString());
   }
 
   @override

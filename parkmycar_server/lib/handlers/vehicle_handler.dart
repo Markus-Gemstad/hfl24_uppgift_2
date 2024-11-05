@@ -8,16 +8,20 @@ Future<Response> postVehicleHandler(Request request) async {
     final data = await request.readAsString();
     final json = jsonDecode(data);
     Vehicle parsedVehicle = VehicleSerializer().fromJson(json);
-    Vehicle? newVehicle =
-        await VehicleRepository.instance.create(parsedVehicle);
+    if (parsedVehicle.isValid()) {
+      Vehicle? newVehicle =
+          await VehicleRepository.instance.create(parsedVehicle);
 
-    if (newVehicle != null) {
-      return Response.ok(
-        jsonEncode(VehicleSerializer().toJson(newVehicle)),
-        headers: {'Content-Type': 'application/json'},
-      );
+      if (newVehicle != null) {
+        return Response.ok(
+          jsonEncode(VehicleSerializer().toJson(newVehicle)),
+          headers: {'Content-Type': 'application/json'},
+        );
+      } else {
+        return Response.badRequest(body: objectNotCreated);
+      }
     } else {
-      return Response.badRequest(body: objectNotCreated);
+      return Response.badRequest(body: invalidInputData);
     }
   } catch (e) {
     return Response.badRequest();
@@ -63,16 +67,20 @@ Future<Response> updateVehicleHandler(Request request) async {
     final data = await request.readAsString();
     final json = jsonDecode(data);
     Vehicle parsedVehicle = VehicleSerializer().fromJson(json);
-    Vehicle? updatedVehicle =
-        await VehicleRepository.instance.update(parsedVehicle);
+    if (parsedVehicle.isValid()) {
+      Vehicle? updatedVehicle =
+          await VehicleRepository.instance.update(parsedVehicle);
 
-    if (updatedVehicle != null) {
-      return Response.ok(
-        jsonEncode(VehicleSerializer().toJson(updatedVehicle)),
-        headers: {'Content-Type': 'application/json'},
-      );
+      if (updatedVehicle != null) {
+        return Response.ok(
+          jsonEncode(VehicleSerializer().toJson(updatedVehicle)),
+          headers: {'Content-Type': 'application/json'},
+        );
+      } else {
+        return Response.badRequest(body: objectNotFound);
+      }
     } else {
-      return Response.badRequest(body: objectNotFound);
+      return Response.badRequest(body: invalidInputData);
     }
   } catch (e) {
     return Response.badRequest();

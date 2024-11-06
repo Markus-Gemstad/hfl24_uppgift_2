@@ -1,3 +1,7 @@
+import 'package:parkmycar_server/repositories/parking_repository.dart';
+import 'package:parkmycar_server/repositories/parking_space_repository.dart';
+import 'package:parkmycar_server/repositories/person_repository.dart';
+import 'package:parkmycar_server/repositories/vehicle_repository.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 import 'package:parkmycar_shared/parkmycar_shared.dart';
@@ -47,86 +51,86 @@ class ServerConfig {
 
     router.get(
         '/persons',
-        (Request r) =>
-            getAllItemsHandler(r, DbRepository<Person>(), PersonSerializer()));
+        (Request r) => getAllItemsHandler(
+            r, PersonRepository.instance, PersonSerializer()));
     router.post(
         '/persons',
-        (Request r) =>
-            createItemHandler(r, DbRepository<Person>(), PersonSerializer()));
+        (Request r) => createItemHandler(
+            r, PersonRepository.instance, PersonSerializer()));
     router.get(
         '/persons/<id|[0-9]+>',
-        (Request r, String id) =>
-            getItemHandler(r, id, DbRepository<Person>(), PersonSerializer()));
+        (Request r, String id) => getItemHandler(
+            r, id, PersonRepository.instance, PersonSerializer()));
     router.put(
         '/persons',
-        (Request r) =>
-            updateItemHandler(r, DbRepository<Person>(), PersonSerializer()));
+        (Request r) => updateItemHandler(
+            r, PersonRepository.instance, PersonSerializer()));
     router.delete(
         '/persons/<id|[0-9]+>',
         (Request r, String id) => deleteItemHandler(
-            r, id, DbRepository<Person>(), PersonSerializer()));
+            r, id, PersonRepository.instance, PersonSerializer()));
 
     router.get(
         '/vehicles',
         (Request r) => getAllItemsHandler(
-            r, DbRepository<Vehicle>(), VehicleSerializer()));
+            r, VehicleRepository.instance, VehicleSerializer()));
     router.post(
         '/vehicles',
-        (Request r) =>
-            createItemHandler(r, DbRepository<Vehicle>(), VehicleSerializer()));
+        (Request r) => createItemHandler(
+            r, VehicleRepository.instance, VehicleSerializer()));
     router.get(
         '/vehicles/<id|[0-9]+>',
         (Request r, String id) => getItemHandler(
-            r, id, DbRepository<Vehicle>(), VehicleSerializer()));
+            r, id, VehicleRepository.instance, VehicleSerializer()));
     router.put(
         '/vehicles',
-        (Request r) =>
-            updateItemHandler(r, DbRepository<Vehicle>(), VehicleSerializer()));
+        (Request r) => updateItemHandler(
+            r, VehicleRepository.instance, VehicleSerializer()));
     router.delete(
         '/vehicles/<id|[0-9]+>',
         (Request r, String id) => deleteItemHandler(
-            r, id, DbRepository<Vehicle>(), VehicleSerializer()));
+            r, id, VehicleRepository.instance, VehicleSerializer()));
 
     router.get(
         '/parkings',
         (Request r) => getAllItemsHandler(
-            r, DbRepository<Parking>(), ParkingSerializer()));
+            r, ParkingRepository.instance, ParkingSerializer()));
     router.post(
         '/parkings',
-        (Request r) =>
-            createItemHandler(r, DbRepository<Parking>(), ParkingSerializer()));
+        (Request r) => createItemHandler(
+            r, ParkingRepository.instance, ParkingSerializer()));
     router.get(
         '/parkings/<id|[0-9]+>',
         (Request r, String id) => getItemHandler(
-            r, id, DbRepository<Parking>(), ParkingSerializer()));
+            r, id, ParkingRepository.instance, ParkingSerializer()));
     router.put(
         '/parkings',
-        (Request r) =>
-            updateItemHandler(r, DbRepository<Parking>(), ParkingSerializer()));
+        (Request r) => updateItemHandler(
+            r, ParkingRepository.instance, ParkingSerializer()));
     router.delete(
         '/parkings/<id|[0-9]+>',
         (Request r, String id) => deleteItemHandler(
-            r, id, DbRepository<Parking>(), ParkingSerializer()));
+            r, id, ParkingRepository.instance, ParkingSerializer()));
 
     router.get(
         '/parkingspaces',
         (Request r) => getAllItemsHandler(
-            r, DbRepository<ParkingSpace>(), ParkingSpaceSerializer()));
+            r, ParkingSpaceRepository.instance, ParkingSpaceSerializer()));
     router.post(
         '/parkingspaces',
         (Request r) => createItemHandler(
-            r, DbRepository<ParkingSpace>(), ParkingSpaceSerializer()));
+            r, ParkingSpaceRepository.instance, ParkingSpaceSerializer()));
     router.get(
         '/parkingspaces/<id|[0-9]+>',
         (Request r, String id) => getItemHandler(
-            r, id, DbRepository<ParkingSpace>(), ParkingSpaceSerializer()));
+            r, id, ParkingSpaceRepository.instance, ParkingSpaceSerializer()));
     router.put(
         '/parkingspaces',
         (Request r) => updateItemHandler(
-            r, DbRepository<ParkingSpace>(), ParkingSpaceSerializer()));
+            r, ParkingSpaceRepository.instance, ParkingSpaceSerializer()));
     router.delete(
         '/parkingspaces/<id|[0-9]+>',
         (Request r, String id) => deleteItemHandler(
-            r, id, DbRepository<ParkingSpace>(), ParkingSpaceSerializer()));
+            r, id, ParkingSpaceRepository.instance, ParkingSpaceSerializer()));
   }
 }

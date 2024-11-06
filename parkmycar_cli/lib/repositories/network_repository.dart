@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
-import 'package:parkmycar_shared/models/serializer.dart';
 import 'package:parkmycar_shared/parkmycar_shared.dart';
 
 abstract class NetworkRepository<T> implements RepositoryInterface<T> {

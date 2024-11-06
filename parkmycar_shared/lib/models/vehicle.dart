@@ -1,5 +1,4 @@
 import 'package:parkmycar_shared/parkmycar_shared.dart';
-import 'serializer.dart';
 
 enum VehicleType { unknown, car, motorcycle, truck }
 
@@ -52,6 +51,7 @@ class Vehicle extends Identifiable {
     assert(VehicleType.truck.index == 2);
   }
 
+  @override
   bool isValid() {
     return Validators.isValidRegNr(regNr) &&
         Validators.isValidId(personId.toString());

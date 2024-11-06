@@ -15,7 +15,7 @@ void screenAddPerson() async {
   try {
     Person? person =
         await PersonRepository.instance.create(Person(name, personnr));
-    stdout.writeln("\nFordon skapat med följande uppgifter:\n");
+    stdout.writeln("\nPerson skapad med följande uppgifter:\n");
     stdout.writeln(person.toString());
   } catch (e) {
     stdout.writeln("\nGick inte att skapa ny person. Felmeddelande: $e\n");

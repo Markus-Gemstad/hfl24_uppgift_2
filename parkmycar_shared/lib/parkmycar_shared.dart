@@ -5,6 +5,7 @@ library;
 
 export 'models/error_codes.dart';
 export 'models/identifiable.dart';
+export 'models/serializer.dart';
 export 'models/parking_space.dart';
 export 'models/parking.dart';
 export 'models/person.dart';

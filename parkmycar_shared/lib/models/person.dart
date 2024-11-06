@@ -16,6 +16,7 @@ class Person extends Identifiable {
   /// Default constructor. Exclude id if this is a new object
   Person(this.name, this.personnr, [this.id = -1]);
 
+  @override
   bool isValid() {
     return Validators.isValidName(name) && Validators.isValidPersonNr(personnr);
   }

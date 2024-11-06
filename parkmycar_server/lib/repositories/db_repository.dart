@@ -1,8 +1,7 @@
 import 'package:parkmycar_server/server_config.dart';
 import 'package:parkmycar_shared/parkmycar_shared.dart';
 
-abstract class DbRepository<T extends Identifiable>
-    implements RepositoryInterface<T> {
+class DbRepository<T extends Identifiable> implements RepositoryInterface<T> {
   Box<T> box = ServerConfig.instance.store.box<T>();
 
   @override

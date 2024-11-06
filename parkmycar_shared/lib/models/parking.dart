@@ -1,6 +1,5 @@
 import 'package:intl/intl.dart';
 import 'package:parkmycar_shared/parkmycar_shared.dart';
-import 'serializer.dart';
 
 @Entity()
 class Parking extends Identifiable {
@@ -21,6 +20,7 @@ class Parking extends Identifiable {
   Parking(this.vehicleId, this.parkingSpaceId, this.startTime, this.endTime,
       [this.id = -1]);
 
+  @override
   bool isValid() {
     DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm');
     return Validators.isValidId(vehicleId.toString()) &&

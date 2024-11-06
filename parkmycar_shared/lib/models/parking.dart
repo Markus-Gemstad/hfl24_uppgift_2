@@ -45,7 +45,7 @@ class ParkingSerializer extends Serializer<Parking> {
       'vehicleId': item.vehicleId,
       'parkingSpaceId': item.parkingSpaceId,
       'startTime': item.startTime.toIso8601String(),
-      'endTime': item.startTime.toIso8601String(),
+      'endTime': item.endTime.toIso8601String(),
     };
   }
 

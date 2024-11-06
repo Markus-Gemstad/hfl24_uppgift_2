@@ -19,7 +19,8 @@ class ParkingSpace extends Identifiable {
   ParkingSpace(this.address, this.pricePerHour, [this.id = -1]);
 
   bool isValid() {
-    return (Validators.isValidAddress(address));
+    return (Validators.isValidAddress(address) &&
+        Validators.isValidPricePerHour(pricePerHour.toString()));
   }
 
   @override

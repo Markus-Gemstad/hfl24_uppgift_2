@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:http/http.dart';
 import 'package:test/test.dart';
 
+import 'parking_space_tests.dart';
+import 'parking_tests.dart';
 import 'person_tests.dart';
 import 'vehicle_tests.dart';
 
@@ -54,8 +56,20 @@ void main() {
   test('Vehicle get all test', vehicleGetAllTest);
   test('Vehicle update', vehicleUpdateTest);
 
+  test('ParkingSpace create test', parkingSpaceCreateTest);
+  test('ParkingSpace get by id', parkingSpaceGetByIdTest);
+  test('ParkingSpace get all test', parkingSpaceGetAllTest);
+  test('ParkingSpace update', parkingSpaceUpdateTest);
+
+  test('Parking create test', parkingCreateTest);
+  test('Parking get by id', parkingGetByIdTest);
+  test('Parking get all test', parkingGetAllTest);
+  test('Parking update', parkingUpdateTest);
+
   // Don't delete before all other tests are done since the use id's from
   // previous tests
+  test('Parking delete', parkingDeleteTest);
+  test('ParkingSpace delete', parkingSpaceDeleteTest);
   test('Vehicle delete', vehicleDeleteTest);
   test('Person delete', personDeleteTest);
 

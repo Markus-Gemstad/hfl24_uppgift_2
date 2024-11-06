@@ -63,10 +63,10 @@ personGetByIdTest() async {
 personUpdateTest() async {
   String name = 'Testare Test uppdaterad';
   String pnr = '200001010101';
-  Person item = Person(name, pnr);
+  Person item = Person(name, pnr, newPersonId);
   expect(item.isValid(), true);
 
-  final response = await post(Uri.parse('$host/persons'),
+  final response = await put(Uri.parse('$host/persons'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(PersonSerializer().toJson(item)));
 
@@ -78,15 +78,13 @@ personUpdateTest() async {
 
   item = PersonSerializer().fromJson(json);
   expect(item.isValid(), true);
-  expect(item.id > 0, true);
+  expect(item.id, newPersonId);
   expect(item.name, name);
   expect(item.personnr, pnr);
-
-  newPersonId = item.id;
 }
 
 personDeleteTest() async {
-  final response = await get(
+  final response = await delete(
     Uri.parse('$host/persons/$newPersonId'),
     headers: {'Content-Type': 'application/json'},
   );

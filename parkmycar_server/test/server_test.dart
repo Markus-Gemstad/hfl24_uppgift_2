@@ -3,6 +3,7 @@ import 'package:http/http.dart';
 import 'package:test/test.dart';
 
 import 'person_tests.dart';
+import 'vehicle_tests.dart';
 
 // /persons	            GET	    Hämta alla personer	getAll()
 // /persons	            POST	  Skapa ny person	create()
@@ -43,10 +44,19 @@ void main() {
 
   tearDown(() => p.kill());
 
-  test('Person get all test', personGetAllTest);
   test('Person create test', personCreateTest);
   test('Person get by id', personGetByIdTest);
+  test('Person get all test', personGetAllTest);
   test('Person update', personUpdateTest);
+
+  test('Vehicle create test', vehicleCreateTest);
+  test('Vehicle get by id', vehicleGetByIdTest);
+  test('Vehicle get all test', vehicleGetAllTest);
+  test('Vehicle update', vehicleUpdateTest);
+
+  // Don't delete before all other tests are done since the use id's from
+  // previous tests
+  test('Vehicle delete', vehicleDeleteTest);
   test('Person delete', personDeleteTest);
 
   test('404', () async {

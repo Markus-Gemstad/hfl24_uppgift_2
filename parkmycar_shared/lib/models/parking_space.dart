@@ -26,7 +26,7 @@ class ParkingSpace extends Identifiable {
 
   @override
   String toString() {
-    return "Id: $id, Address: [$address], Pris per timme: $pricePerHour";
+    return "Id: $id, Address: $address, Pris per timme: $pricePerHour";
   }
 
   Map<String, dynamic> toJson() {

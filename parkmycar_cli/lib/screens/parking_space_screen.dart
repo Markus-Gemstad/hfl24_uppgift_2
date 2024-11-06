@@ -46,8 +46,21 @@ void screenShowAllParkingSpaces() async {
 void screenUpdateParkingSpace() async {
   clearScreen();
 
+  String availableParkingSpaces = '';
+  try {
+    List<ParkingSpace> allParkingSpaces =
+        await ParkingSpaceRepository.instance.getAll();
+    if (allParkingSpaces.isNotEmpty) {
+      Iterable<int> ids = allParkingSpaces.map((e) => e.id);
+      availableParkingSpaces = ' (IDn: ${ids.join(',')})';
+    }
+  } finally {
+    // Do nothing, maybe adding will work anyway
+  }
+
   int id = readValidInputInt(
-      "Ange ID på parkeringsplats som ska ändras:", Validators.isValidId);
+      "Ange ID på parkeringsplats som ska ändras$availableParkingSpaces:",
+      Validators.isValidId);
 
   try {
     await ParkingSpaceRepository.instance.getById(id);
@@ -80,14 +93,27 @@ void screenUpdateParkingSpace() async {
 void screenDeleteParkingSpace() async {
   clearScreen();
 
+  String availableParkingSpaces = '';
+  try {
+    List<ParkingSpace> allParkingSpaces =
+        await ParkingSpaceRepository.instance.getAll();
+    if (allParkingSpaces.isNotEmpty) {
+      Iterable<int> ids = allParkingSpaces.map((e) => e.id);
+      availableParkingSpaces = ' (IDn: ${ids.join(',')})';
+    }
+  } finally {
+    // Do nothing, maybe adding will work anyway
+  }
+
   int id = readValidInputInt(
-      "Ange ID på parkeringsplats som ska tas bort:", Validators.isValidId);
+      "Ange ID på parkeringsplats som ska tas bort$availableParkingSpaces:",
+      Validators.isValidId);
 
   try {
     await ParkingSpaceRepository.instance.delete(id);
-    stdout.writeln("\nParkeringsplats med ID:$id har tagits bort!");
+    stdout.writeln("\nParkeringsplats med ID $id har tagits bort!");
   } catch (e) {
-    stdout.writeln("\nFEL! Parkeringsplats med ID:$id kunde inte tas bort! $e");
+    stdout.writeln("\nFEL! Parkeringsplats med ID $id kunde inte tas bort! $e");
   }
 
   stdout.write("\nTryck ENTER för att gå tillbaka");

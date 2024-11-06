@@ -43,8 +43,20 @@ void screenShowAllPersons() async {
 void screenUpdatePerson() async {
   clearScreen();
 
+  String availablePersons = '';
+  try {
+    List<Person> allPersons = await PersonRepository.instance.getAll();
+    if (allPersons.isNotEmpty) {
+      Iterable<int> ids = allPersons.map((e) => e.id);
+      availablePersons = ' (IDn: ${ids.join(',')})';
+    }
+  } finally {
+    // Do nothing, maybe adding will work anyway
+  }
+
   int id = readValidInputInt(
-      "Ange ID på person som ska ändras:", Validators.isValidId);
+      "Ange ID på person som ska ändras$availablePersons:",
+      Validators.isValidId);
 
   try {
     await PersonRepository.instance.getById(id);
@@ -77,14 +89,26 @@ void screenUpdatePerson() async {
 void screenDeletePerson() async {
   clearScreen();
 
+  String availablePersons = '';
+  try {
+    List<Person> allPersons = await PersonRepository.instance.getAll();
+    if (allPersons.isNotEmpty) {
+      Iterable<int> ids = allPersons.map((e) => e.id);
+      availablePersons = ' (IDn: ${ids.join(',')})';
+    }
+  } finally {
+    // Do nothing, maybe adding will work anyway
+  }
+
   int id = readValidInputInt(
-      "Ange ID på person som ska tas bort:", Validators.isValidId);
+      "Ange ID på person som ska tas bort$availablePersons:",
+      Validators.isValidId);
 
   try {
     await PersonRepository.instance.delete(id);
-    stdout.writeln("\nPerson med ID: $id har tagits bort!");
+    stdout.writeln("\nPerson med ID $id har tagits bort!");
   } catch (e) {
-    stdout.writeln("\nFEL! Person med ID:$id kunde inte tas bort! $e");
+    stdout.writeln("\nFEL! Person med ID $id kunde inte tas bort! $e");
   }
 
   stdout.write("\nTryck ENTER för att gå tillbaka");

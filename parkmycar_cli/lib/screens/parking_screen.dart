@@ -8,8 +8,23 @@ import '../screens/screen_util.dart';
 void screenAddParking() async {
   clearScreen();
 
-  int vehicleId =
-      readValidInputInt("Ange ID på ett fordon:", Validators.isValidId);
+  String availableVehicles = '';
+  try {
+    List<Vehicle> allVehicles = await VehicleRepository.instance.getAll();
+    if (allVehicles.isNotEmpty) {
+      Iterable<int> ids = allVehicles.map((e) => e.id);
+      availableVehicles = ' (IDn: ${ids.join(',')})';
+    }
+  } catch (e) {
+    stdout.writeln(
+        "\nFEL! Det finns inga fordon. Du måste först skapa ett fordon.");
+    stdout.write("\nTryck ENTER för att gå tillbaka");
+    stdin.readLineSync();
+    return;
+  }
+
+  int vehicleId = readValidInputInt(
+      "Ange ID på ett fordon$availableVehicles:", Validators.isValidId);
 
   try {
     await VehicleRepository.instance.getById(vehicleId);
@@ -20,8 +35,25 @@ void screenAddParking() async {
     return;
   }
 
-  int parkingSpaceId =
-      readValidInputInt("Ange ID på en parkeringsplats:", Validators.isValidId);
+  String availableParkingSpaces = '';
+  try {
+    List<ParkingSpace> allParkingSpaces =
+        await ParkingSpaceRepository.instance.getAll();
+    if (allParkingSpaces.isNotEmpty) {
+      Iterable<int> ids = allParkingSpaces.map((e) => e.id);
+      availableParkingSpaces = ' (IDn: ${ids.join(',')})';
+    }
+  } catch (e) {
+    stdout.writeln(
+        "\nFEL! Det finns inga parkeringsplatser. Du måste först skapa en parkeringsplats.");
+    stdout.write("\nTryck ENTER för att gå tillbaka");
+    stdin.readLineSync();
+    return;
+  }
+
+  int parkingSpaceId = readValidInputInt(
+      "Ange ID på en parkeringsplats$availableParkingSpaces:",
+      Validators.isValidId);
 
   try {
     await ParkingSpaceRepository.instance.getById(parkingSpaceId);
@@ -71,8 +103,20 @@ void screenShowAllParkings() async {
 void screenUpdateParking() async {
   clearScreen();
 
+  String availableParkings = '';
+  try {
+    List<Parking> allParkings = await ParkingRepository.instance.getAll();
+    if (allParkings.isNotEmpty) {
+      Iterable<int> ids = allParkings.map((e) => e.id);
+      availableParkings = ' (IDn: ${ids.join(',')})';
+    }
+  } finally {
+    // Do nothing, maybe adding will work anyway
+  }
+
   int id = readValidInputInt(
-      "Ange ID på parkeringen som ska ändras:", Validators.isValidId);
+      "Ange ID på parkeringen som ska ändras$availableParkings:",
+      Validators.isValidId);
 
   try {
     await ParkingRepository.instance.getById(id);
@@ -83,8 +127,23 @@ void screenUpdateParking() async {
     return;
   }
 
-  int vehicleId =
-      readValidInputInt("Ange ID på ett fordon:", Validators.isValidId);
+  String availableVehicles = '';
+  try {
+    List<Vehicle> allVehicles = await VehicleRepository.instance.getAll();
+    if (allVehicles.isNotEmpty) {
+      Iterable<int> ids = allVehicles.map((e) => e.id);
+      availableVehicles = ' (IDn: ${ids.join(',')})';
+    }
+  } catch (e) {
+    stdout.writeln(
+        "\nFEL! Det finns inga fordon. Du måste först skapa ett fordon.");
+    stdout.write("\nTryck ENTER för att gå tillbaka");
+    stdin.readLineSync();
+    return;
+  }
+
+  int vehicleId = readValidInputInt(
+      "Ange ID på ett fordon$availableVehicles:", Validators.isValidId);
 
   try {
     await VehicleRepository.instance.getById(vehicleId);
@@ -95,8 +154,25 @@ void screenUpdateParking() async {
     return;
   }
 
-  int parkingSpaceId =
-      readValidInputInt("Ange ID på en parkeringsplats:", Validators.isValidId);
+  String availableParkingSpaces = '';
+  try {
+    List<ParkingSpace> allParkingSpaces =
+        await ParkingSpaceRepository.instance.getAll();
+    if (allParkingSpaces.isNotEmpty) {
+      Iterable<int> ids = allParkingSpaces.map((e) => e.id);
+      availableParkingSpaces = ' (IDn: ${ids.join(',')})';
+    }
+  } catch (e) {
+    stdout.writeln(
+        "\nFEL! Det finns inga parkeringsplatser. Du måste först skapa en parkeringsplats.");
+    stdout.write("\nTryck ENTER för att gå tillbaka");
+    stdin.readLineSync();
+    return;
+  }
+
+  int parkingSpaceId = readValidInputInt(
+      "Ange ID på en parkeringsplats$availableParkingSpaces:",
+      Validators.isValidId);
 
   try {
     await ParkingSpaceRepository.instance.getById(parkingSpaceId);
@@ -131,14 +207,26 @@ void screenUpdateParking() async {
 void screenDeleteParking() async {
   clearScreen();
 
+  String availableParkings = '';
+  try {
+    List<Parking> allParkings = await ParkingRepository.instance.getAll();
+    if (allParkings.isNotEmpty) {
+      Iterable<int> ids = allParkings.map((e) => e.id);
+      availableParkings = ' (IDn: ${ids.join(',')})';
+    }
+  } finally {
+    // Do nothing, maybe adding will work anyway
+  }
+
   int id = readValidInputInt(
-      "Ange ID på parkeringen som ska tas bort:", Validators.isValidId);
+      "Ange ID på parkeringen som ska tas bort$availableParkings:",
+      Validators.isValidId);
 
   try {
     await ParkingRepository.instance.delete(id);
-    stdout.writeln("\nParkering med ID:$id har tagits bort!");
+    stdout.writeln("\nParkering med ID $id har tagits bort!");
   } catch (e) {
-    stdout.writeln("\nFEL! Parkering med ID:$id kunde inte tas bort! $e");
+    stdout.writeln("\nFEL! Parkering med ID $id kunde inte tas bort! $e");
   }
 
   stdout.write("\nTryck ENTER för att gå tillbaka");

@@ -15,8 +15,23 @@ void screenAddVehicle() async {
       Vehicle.isValidVehicleTypeValue);
   VehicleType type = VehicleType.values[typeIndex];
 
-  int personId =
-      readValidInputInt("Ange ID på en person:", Validators.isValidId);
+  String availablePersons = '';
+  try {
+    List<Person> allPersons = await PersonRepository.instance.getAll();
+    if (allPersons.isNotEmpty) {
+      Iterable<int> ids = allPersons.map((e) => e.id);
+      availablePersons = ' (IDn: ${ids.join(',')})';
+    }
+  } catch (e) {
+    stdout.writeln(
+        "\nFEL! Det finns inga personer. Du måste först skapa en person.");
+    stdout.write("\nTryck ENTER för att gå tillbaka");
+    stdin.readLineSync();
+    return;
+  }
+
+  int personId = readValidInputInt(
+      "Ange ID på en person$availablePersons:", Validators.isValidId);
 
   try {
     await PersonRepository.instance.getById(personId);
@@ -54,8 +69,20 @@ void screenShowAllVehicles() async {
 void screenUpdateVehicle() async {
   clearScreen();
 
+  String availableVehicles = '';
+  try {
+    List<Vehicle> allVehicles = await VehicleRepository.instance.getAll();
+    if (allVehicles.isNotEmpty) {
+      Iterable<int> ids = allVehicles.map((e) => e.id);
+      availableVehicles = ' (IDn: ${ids.join(',')})';
+    }
+  } finally {
+    // Do nothing, maybe adding will work anyway
+  }
+
   int id = readValidInputInt(
-      "Ange ID på fordon som ska ändras:", Validators.isValidId);
+      "Ange ID på fordon som ska ändras$availableVehicles:",
+      Validators.isValidId);
 
   try {
     await VehicleRepository.instance.getById(id);
@@ -74,11 +101,26 @@ void screenUpdateVehicle() async {
       Vehicle.isValidVehicleTypeValue);
   VehicleType type = VehicleType.values[typeIndex];
 
-  int personId =
-      readValidInputInt("Ange ID på en person:", Validators.isValidId);
+  String availablePersons = '';
+  try {
+    List<Person> allPersons = await PersonRepository.instance.getAll();
+    if (allPersons.isNotEmpty) {
+      Iterable<int> ids = allPersons.map((e) => e.id);
+      availablePersons = ' (IDn: ${ids.join(',')})';
+    }
+  } catch (e) {
+    stdout.writeln(
+        "\nFEL! Det finns inga personer. Du måste först skapa en person.");
+    stdout.write("\nTryck ENTER för att gå tillbaka");
+    stdin.readLineSync();
+    return;
+  }
+
+  int personId = readValidInputInt(
+      "Ange ID på en person$availablePersons:", Validators.isValidId);
 
   try {
-    await VehicleRepository.instance.getById(personId);
+    await PersonRepository.instance.getById(personId);
   } catch (e) {
     stdout.write("\nFEL! Det finns ingen person med angivet ID.");
     stdout.write("\nTryck ENTER för att gå tillbaka");
@@ -102,14 +144,26 @@ void screenUpdateVehicle() async {
 void screenDeleteVehicle() async {
   clearScreen();
 
+  String availableVehicles = '';
+  try {
+    List<Vehicle> allVehicles = await VehicleRepository.instance.getAll();
+    if (allVehicles.isNotEmpty) {
+      Iterable<int> ids = allVehicles.map((e) => e.id);
+      availableVehicles = ' (IDn: ${ids.join(',')})';
+    }
+  } finally {
+    // Do nothing, maybe adding will work anyway
+  }
+
   int id = readValidInputInt(
-      "Ange ID på fordon som ska tas bort:", Validators.isValidId);
+      "Ange ID på fordon som ska tas bort$availableVehicles:",
+      Validators.isValidId);
 
   try {
     await VehicleRepository.instance.delete(id);
-    stdout.writeln("\nFordon med ID:$id har tagits bort!");
+    stdout.writeln("\nFordon med ID $id har tagits bort!");
   } catch (e) {
-    stdout.writeln("\nFEL! Fordon med ID:$id kunde inte tas bort! $e");
+    stdout.writeln("\nFEL! Fordon med ID $id kunde inte tas bort! $e");
   }
 
   stdout.write("\nTryck ENTER för att gå tillbaka");

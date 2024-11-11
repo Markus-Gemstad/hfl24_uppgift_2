@@ -6,7 +6,6 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 import 'package:parkmycar_shared/parkmycar_shared.dart';
 import 'handlers/item_handler.dart';
-import 'repositories/db_repository.dart';
 
 class ServerConfig {
   // singleton constructor

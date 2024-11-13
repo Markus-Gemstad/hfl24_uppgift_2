@@ -1,5 +1,5 @@
 import 'package:objectbox/objectbox.dart';
-import 'package:parkmycar_shared/util/validators.dart';
+import '../util/validators.dart';
 import 'identifiable.dart';
 import 'serializer.dart';
 

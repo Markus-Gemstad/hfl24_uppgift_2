@@ -1,4 +1,7 @@
-import 'package:parkmycar_shared/parkmycar_shared.dart';
+import 'package:objectbox/objectbox.dart';
+import '../util/validators.dart';
+import 'identifiable.dart';
+import 'serializer.dart';
 
 enum VehicleType { unknown, car, motorcycle, truck }
 

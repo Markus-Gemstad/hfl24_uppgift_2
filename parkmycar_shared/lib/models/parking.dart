@@ -1,5 +1,8 @@
 import 'package:intl/intl.dart';
-import 'package:parkmycar_shared/parkmycar_shared.dart';
+import 'package:objectbox/objectbox.dart';
+import '../util/validators.dart';
+import 'identifiable.dart';
+import 'serializer.dart';
 
 @Entity()
 class Parking extends Identifiable {
